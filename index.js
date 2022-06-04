@@ -2,8 +2,10 @@ const express = require("express"),
   app = express(),
   bodyParser = require("body-parser"),
   api = require("./api"),
-  pool = require("./config/database")
+  pool = require("./config/database"),
+  cors = require('cors')
 
+  app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use("/api", api)
