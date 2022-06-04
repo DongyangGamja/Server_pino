@@ -16,6 +16,14 @@ app.get("/test/:id", (req,res) => {
     conn.release()
   })
 })
+app.get("/test", (req,res) => {
+  pool((conn) => {
+    conn.query("select * from tbl_test", (err, row) => {
+      err ? res.send({result : false}) : res.send({datas :  row})
+    })
+    conn.release()
+  })
+})
 app.get("/", (req, res) => res.send("SERVER ON"))
 
 const port = 8080
