@@ -13,6 +13,7 @@ app.get("/test/:id", (req,res) => {
     conn.query("insert into tbl_test value(0, ?)", param, (err, doc)=> {
       err ? res.send({result : err}) : res.send({result : true, data : param})
     })
+    conn.release()
   })
 })
 app.get("/", (req, res) => res.send("SERVER ON"))
