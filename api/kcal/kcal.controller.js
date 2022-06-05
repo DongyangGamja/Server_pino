@@ -4,6 +4,7 @@ const pool = require("../../config/database")
 
 exports.postMenu = (req,res) => {
   const param = [req.body.name, req.body.weight, req.body.id]
+  console.log(param)
   switch (param[0]){
     case "감자" :
       param[0] = 1

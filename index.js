@@ -9,10 +9,10 @@ const express = require("express"),
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use("/api", api)
-app.get("/test/:id", (req,res) => {
-  const param = req.params.id
+app.post("/test", (req,res) => {
+  const param = [req.body.data1, req.body.data2]
   pool(conn => {
-    conn.query("insert into tbl_test value(0, ?)", param, (err, doc)=> {
+    conn.query("insert into tbl_test value(0, ?, ?)", param, (err, doc)=> {
       err ? res.send({result : err}) : res.send({result : true, data : param})
     })
     conn.release()
@@ -28,5 +28,5 @@ app.get("/test", (req,res) => {
 })
 app.get("/", (req, res) => res.send("SERVER ON"))
 
-const port = 8080
+const port = 8001
 app.listen(port, () => console.log(`SERVER ON PORT : ${port}`))
