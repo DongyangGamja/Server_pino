@@ -1,3 +1,4 @@
+/* 에러 없음. */
 const express = require("express"), //모듈 가져오기
   app = express(),
   api = require("./api"),
@@ -5,7 +6,7 @@ const express = require("express"), //모듈 가져오기
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use("./api", api)
+app.use("/api", api)
 
 const port = 8080
 app.listen(port, () => {

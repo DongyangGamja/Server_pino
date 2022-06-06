@@ -1,3 +1,4 @@
+//일단 이건 패스
 // APP_칼로리 계산기 데이터 실시간 제공
 const pool = require("../../config/database")
 //db사용

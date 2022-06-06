@@ -1,6 +1,7 @@
+/* 에러 없음. */
 const mysql = require("mysql"),
   db_info = {
-    host: "pino-hoo.csu91uf8yo4l.ap-northeast-2.rds.amazonaws.com",
+    host: "dmu-pino.ckct8n4nimnj.ap-northeast-2.rds.amazonaws.com",
     port: "3306",
     user: "root",
     password: "qwer1595",
