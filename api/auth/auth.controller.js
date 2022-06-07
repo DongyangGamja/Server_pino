@@ -9,7 +9,7 @@
  saltRound = 10,
  secret = "gamja"
 
-// /* Login -> POST : /api/auth/login */
+/* Login -> POST : /api/auth/login */
 exports.postLogin = (req, res) => {
  const param = [req.body.id, req.body.pw],
  accessToken = jwt.sign({ id: param[0] }, secret, {expiresIn: "1h"})
@@ -18,8 +18,8 @@ exports.postLogin = (req, res) => {
      err && res.send({result : false})
      row.length > 0 ?
        bcrypt.compare(param[1], row[0].u_pw, (err, result) => {
-         console.log(err)
-         err ? res.send({result : false}) : res.send({result : true, token : accessToken})
+         err && res.send({result : false})
+         result ? res.send({result : true, token : accessToken}) : res.send({result : false})
        })
      : res.send({ result: false })
    })
