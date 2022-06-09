@@ -13,7 +13,7 @@ exports.newBoard = (req, res) => {
 
 exports.getBoards = (req, res) => {
   pool((conn) => {
-    conn.query("select b_id, b_title, b_detail, u_name, b_date from tbl_board INNER JOIN tbl_user ", (err, row) => {
+    conn.query("select b_id, b_title, b_detail, u_name, b_date from tbl_board INNER JOIN tbl_user on tbl_board.u_id = tbl_user.u_id ", (err, row) => {
       err ? res.send({ result: false }) : res.send({ boards: row })
     })
     conn.release()
@@ -44,9 +44,8 @@ exports.getBoard = (req, res) => {
 
 exports.findByTitle = (req, res) => {
   // param = /^\/search\/([0-9a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]+)$/.exec(req.url)
-  console.log(req.body.title)
   pool((conn) => {
-    conn.query("select * from tbl_board where b_title = ?", req.body.title, (err, row) => {
+    conn.query("select b_id, b_title, b_detail, u_name, b_date from tbl_board INNER JOIN tbl_user on tbl_board.u_id = tbl_user.u_id where b_title = ?", req.body.title, (err, row) => {
       err ? res.send({ result: false }) : res.send({ boards: row })
     })
     conn.release()

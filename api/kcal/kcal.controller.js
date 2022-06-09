@@ -4,7 +4,6 @@ const pool = require("../../config/database")
 
 exports.postMenu = (req,res) => {
   const param = [req.body.id, req.body.name, req.body.weight]
-  console.log(param)
   switch (param[1]){
     case "사과" :
       param[1] = 1
@@ -19,7 +18,6 @@ exports.postMenu = (req,res) => {
       param[1] = null
       break
   }
-  console.log(param)
   pool((conn) => {
     conn.query("insert into tbl_eat value(?, 0,?,?, now())",param, (err, doc) => {
       err ? res.send({result : false}) : res.send({result : true})

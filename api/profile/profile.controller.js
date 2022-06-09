@@ -41,7 +41,6 @@ exports.getUser = (req,res) => {
   }
 
   exports.getKcal = (req,res) => {
-      console.log(req.url)
     const param = /^\/menu\/([0-9a-zA-Z]+)$/.exec(req.url)[1]
     pool((conn) => {
       conn.query("select * from tbl_eat where u_id = ? ", param, (err, row) => {

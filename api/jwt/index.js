@@ -4,13 +4,6 @@ const jwt = require("jsonwebtoken"),
 exports.check = (req, res, next) => {
   // read the token from header or url
   const token = req.headers.accesstoken
-  console.log(token)
-
-  // token does not exist
-  if (!token) {
-    console.log("Not Token")
-    return res.send({result : false})
-  }
 
   // create a promise that decodes the token
   const p = new Promise((resolve, reject) => {
