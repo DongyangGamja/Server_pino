@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken"),
-  secret = "abdbadfb"
+  secret = "gamja"
 
 exports.check = (req, res, next) => {
   // read the token from header or url
@@ -9,10 +9,7 @@ exports.check = (req, res, next) => {
   // token does not exist
   if (!token) {
     console.log("Not Token")
-    return res.status(403).json({
-      success: false,
-      message: "not logged in",
-    })
+    return res.send({result : false})
   }
 
   // create a promise that decodes the token
@@ -24,7 +21,7 @@ exports.check = (req, res, next) => {
   })
 
   // if token is valid, it will respond with its info
-  const respond = (token) => {
+  const respond = () => {
     next()
   }
 

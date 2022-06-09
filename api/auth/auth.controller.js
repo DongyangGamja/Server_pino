@@ -19,7 +19,7 @@ exports.postLogin = (req, res) => {
      row.length > 0 ?
        bcrypt.compare(param[1], row[0].u_pw, (err, result) => {
          err && res.send({result : false})
-         result ? res.send({result : true, token : accessToken}) : res.send({result : false})
+         result ? res.send({result : true, token : accessToken, info : [row[0].u_name, row[0].u_id]}) : res.send({result : false})
        })
      : res.send({ result: false })
    })
@@ -40,3 +40,4 @@ exports.postRegister = (req, res) => {
    })
  })
 }
+

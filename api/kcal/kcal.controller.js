@@ -3,22 +3,25 @@ const command = require("nodemon/lib/config/command")
 const pool = require("../../config/database")
 
 exports.postMenu = (req,res) => {
-  const param = [req.body.name, req.body.weight, req.body.id]
+  const param = [req.body.id, req.body.name, req.body.weight]
   console.log(param)
-  switch (param[0]){
-    case "감자" :
-      param[0] = 1
+  switch (param[1]){
+    case "사과" :
+      param[1] = 1
       break
-    case "토미토" :
-      param[0] = 2
+    case "바나나" :
+      param[1] = 2
       break
-    case "닭가슴살" :
-      param[0] = 3
+    case "당근" :
+      param[1] = 3
+      break
+    default :
+      param[1] = null
       break
   }
   console.log(param)
   pool((conn) => {
-    conn.query("insert into tbl_eat value(0, ?,?,?, default)",param, (err, doc) => {
+    conn.query("insert into tbl_eat value(?, 0,?,?, now())",param, (err, doc) => {
       err ? res.send({result : false}) : res.send({result : true})
     })
     conn.release()
