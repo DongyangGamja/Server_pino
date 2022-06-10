@@ -37,7 +37,7 @@ exports.getMyEatList = (req, res) => {
   const param = /^\/([0-9a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]+)$/.exec(req.url)[1]
   pool((conn) => {
     conn.query("select * from tbl_eat where u_id = ?", param, (err, row) => {
-      err ? res.send({ result: false }) : res.send({ result: true, date: row })
+      err ? res.send({ result: false }) : res.send({ result: true, data: row })
     })
     conn.release()
   })

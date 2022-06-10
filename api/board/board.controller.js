@@ -49,7 +49,7 @@ exports.getBoard = (req, res) => {
 
 /* Get My Board List -> GET : /api/board/user/:id */
 exports.getMyBoardList = (req, res) => {
-  conssole.log(req.url)
+  // conssole.log(req.url)
   const param = /^\/user\/([0-9a-zA-Z]+)$/.exec(req.url)[1]
   pool((conn) => {
     conn.query("select * from tbl_board where u_id = ? ", param, (err, row) => {
