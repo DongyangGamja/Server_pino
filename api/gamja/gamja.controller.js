@@ -31,6 +31,7 @@ exports.getGamjaAndKcal = (req, res) => {
           : res.send({ result: true, data: row })
       }
     )
+    conn.release()
   })
 }
 
