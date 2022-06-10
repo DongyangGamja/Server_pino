@@ -1,10 +1,8 @@
-/* eslint-disable */
-const command = require("nodemon/lib/config/command")
 const pool = require("../../config/database")
 
-exports.postMenu = (req, res) => {
+/* Create Eat -> POST : /api/kcal */
+exports.postNewEat = (req, res) => {
   const param = [req.body.id, req.body.name, req.body.weight]
-  console.log(param)
   switch (param[1]) {
     case "사과":
       param[1] = 1
@@ -22,7 +20,6 @@ exports.postMenu = (req, res) => {
       param[1] = null
       break
   }
-  console.log(param)
   pool((conn) => {
     conn.query(
       "insert into tbl_eat value(?, 0,?,now(),? )",
@@ -35,14 +32,30 @@ exports.postMenu = (req, res) => {
   })
 }
 
-exports.getMenuList = (req, res) => {
-  const url = req.url
-  const num = url.match(/[0-9]/)[0]
+/* Get Eat List -> GET : /api/kcal/:id */
+exports.getMyEatList = (req, res) => {
+  const param = /^\/([0-9a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]+)$/.exec(req.url)[1]
   pool((conn) => {
-    conn.query("select * from tbl_eat where o_id = ?", num, (err, row) => {
-      console.log(row)
+    conn.query("select * from tbl_eat where u_id = ?", param, (err, row) => {
       err ? res.send({ result: false }) : res.send({ result: true, date: row })
     })
+    conn.release()
+  })
+}
+
+/* Get List Gamja && Kcal For APP -> GET : /api/kcal/all/:id */
+exports.getGamjaAndKcal = (req, res) => {
+  const param = /^\/all\/([0-9a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]+)$/.exec(req.url)[1]
+  pool((conn) => {
+    conn.query(
+      "select g_name, g_exp, m_kind, m_kcal, m_date from tbl_eat as e INNER JOIN tbl_gamja as g on g.u_id = e.u_id where e.u_id = ?",
+      param,
+      (err, row) => {
+        err
+          ? res.send({ result: false })
+          : res.send({ result: true, data: row })
+      }
+    )
     conn.release()
   })
 }

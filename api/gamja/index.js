@@ -1,8 +1,10 @@
 const router = require("express").Router(),
   gamja = require("./gamja.controller")
 
-router.post("/", gamja.newGamja)
-router.get("/rank", gamja.getGamjaRank)
-router.put("/exp/:id", gamja.updateGamjaExp)
-router.get("/all/:id", gamja.getGamjaAndKcal)
+router.patch("/:id", gamja.patchGamjaExp)
+router.get("/", gamja.getGamjaRankList)
+router.get("/:id", gamja.getMyGamja)
+router.post("/", gamja.postCreateGamja)
+router.patch("/name/:id", gamja.patchGamjaName)
+
 module.exports = router

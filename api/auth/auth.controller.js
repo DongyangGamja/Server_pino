@@ -1,8 +1,3 @@
-/**
- * Login
- * Register
- */
-
 const pool = require("../../config/database"),
   bcrypt = require("bcryptjs"),
   jwt = require("jsonwebtoken"),
@@ -44,5 +39,16 @@ exports.postRegister = (req, res) => {
       })
       conn.release()
     })
+  })
+}
+
+/* Get userInfo -> GET : /api/auth/:id */
+exports.getInfo = (req, res) => {
+  const param = /^\/([0-9a-zA-Z]+)$/.exec(req.url)[1]
+  pool((conn) => {
+    conn.query("select * from tbl_user where u_id = ? ", param, (err, row) => {
+      err ? res.send({ result: false }) : res.send({ result: true, data: row })
+    })
+    conn.release()
   })
 }
