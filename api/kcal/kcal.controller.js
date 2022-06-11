@@ -1,3 +1,4 @@
+const e = require("cors")
 const pool = require("../../config/database")
 
 /* Create Eat -> POST : /api/kcal */
@@ -46,14 +47,25 @@ exports.getMyEatList = (req, res) => {
 /* Get List Gamja && Kcal For APP -> GET : /api/kcal/all/:id */
 exports.getGamjaAndKcal = (req, res) => {
   const param = /^\/all\/([0-9a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]+)$/.exec(req.url)[1]
+
   pool((conn) => {
     conn.query(
-      "select g_name, g_exp, m_kind, m_kcal, m_date from tbl_eat as e INNER JOIN tbl_gamja as g on g.u_id = e.u_id where e.u_id = ?",
+      "select * from tbl_eat where u_id = ?",
       param,
-      (err, row) => {
-        err
-          ? res.send({ result: false })
-          : res.send({ result: true, data: row })
+      (err, kcal_row) => {
+        if (err) {
+          res.send({ result: false })
+        } else {
+          conn.query(
+            "select * from tbl_gamja where u_id = ?",
+            param,
+            (err, gamja_row) => {
+              err
+                ? res.send({ result: false })
+                : res.send({ result: true, kcal: kcal_row, gamja: gamja_row })
+            }
+          )
+        }
       }
     )
     conn.release()
