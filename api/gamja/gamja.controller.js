@@ -19,9 +19,14 @@ exports.patchGamjaExp = (req, res) => {
 /* Get Gamja Rank List -> GET : /api/gamja */
 exports.getGamjaRankList = (req, res) => {
   pool((conn) => {
-    conn.query("SELECT * FROM tbl_gamja ORDER BY g_exp desc", (err, row) => {
-      err ? res.send({ result: false }) : res.send({ result: true, data: row })
-    })
+    conn.query(
+      "SELECT u_name, g_name, g_exp FROM tbl_gamja as g inner join tbl_user as u on u.u_id = g.u_id ORDER BY g_exp desc",
+      (err, row) => {
+        err
+          ? res.send({ result: false })
+          : res.send({ result: true, data: row })
+      }
+    )
     conn.release()
   })
 }
